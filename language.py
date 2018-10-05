@@ -3,11 +3,14 @@
 import re
 import os
 import sys
-from chardet import detect
 reload(sys)
 sys.setdefaultencoding('utf8')
 #print sys.getdefaultencoding()
 
+# 转换文件编码
+# import encode_utf8 
+
+# 遍历文件路径
 def listFiles(dirPath):
 	fileList=[]
 	for root,dirs,files in os.walk(dirPath):
@@ -17,7 +20,7 @@ def listFiles(dirPath):
  
 def main():
 	fileDir = os.getcwd() + "/src"
-	logData = open("./log.txt", 'w+')
+	logData = open("./log/log.txt", 'w+')
 	fileList = listFiles(fileDir)
 	fData = open("Language.lua", "r+")
 	fData.seek(0, 0)
@@ -35,12 +38,14 @@ def main():
 		strTable = []
 		numStrTable = []
 		numStrTable.append(fileName+' = {\n')
- 
+ 		# 过滤目录和指定文件
 		if ("cocos/" in fileObj) or (os.path.basename(fileObj).split('.')[1] != "lua") :
 			print >> logData,"ignore file : " + fileObj
 			continue
+
 		fileStart = False
 		for line in all_the_lines: 
+			# 正则匹配
 			regex = re.compile("(['\"])(?:\\\.|.)*?\\1")
 			regex1 = re.compile(u"[\u4e00-\u9fa5]+")
 			regex2 = re.compile(u"print")
@@ -59,7 +64,9 @@ def main():
 						counter += 1
 					if counter > 0:
 						nStr = 'Language.str%s'%strCounter
+						# 写入日志文件
 						if not fileStart:
+							print >> logData,'-----------------------------------------------------------'
 							print >> logData,'[file] ' + fileObj
 							fileStart = True
 						print >> logData,'[line] %d'% (num) + temp + " ------> " + nStr				

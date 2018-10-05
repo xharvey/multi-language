@@ -5,4 +5,4 @@ function printStr(str)
 	print(str)
 end
 
-printStr("测试一")
+printStr("测试二")

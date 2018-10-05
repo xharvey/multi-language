@@ -1,4 +1,0 @@
-[file] F:\develop\multi-language/src\main.lua
-[line] 5"国庆快乐" ------> language.str1
-[file] F:\develop\multi-language/src\app\init.lua
-[line] 5"十一加班" ------> language.str1
